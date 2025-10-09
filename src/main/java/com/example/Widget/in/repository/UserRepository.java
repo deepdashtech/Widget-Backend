@@ -6,4 +6,5 @@ import com.example.Widget.in.entities.user;
 
 @Repository
 public interface UserRepository extends JpaRepository<user,Integer> {
+    user findByUsername(String username);
 }

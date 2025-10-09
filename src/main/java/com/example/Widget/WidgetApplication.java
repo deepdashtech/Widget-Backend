@@ -11,8 +11,5 @@ public class WidgetApplication
     {
         SpringApplication.run(WidgetApplication.class, args);
 		System.out.println("Hello World");
-
-        user users=new user(1,"Deep","password");
-        System.out.println("user ID : "+users.getUsername());
-	}
+    }
 }
