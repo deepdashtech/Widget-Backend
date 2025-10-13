@@ -17,13 +17,13 @@ public class UserService
     private PasswordEncoder passwordEncoder;
 
 
-    public user RegisterUser(String username, String password)
+    public user RegisterUser(String username, String password, String fullname)
     {
         user user= userRepository.findByUsername(username);
         if(user==null)
         {
             String encodedPassword = passwordEncoder.encode(password);
-            return userRepository.save(new user(username, encodedPassword));
+            return userRepository.save(new user(username, encodedPassword, fullname));
         }
         return null;
     }

@@ -29,7 +29,7 @@ public class AuthController
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<user>> registerUser(@RequestBody LoginRequestDto request)
     {
-        user userResponse = userService.RegisterUser(request.getUsername(), request.getPassword());
+        user userResponse = userService.RegisterUser(request.getUsername(), request.getPassword(), request.getFullname());
 
         if (userResponse != null)
         {
