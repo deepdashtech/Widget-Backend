@@ -5,11 +5,12 @@ import com.example.Widget.in.dto.ApiResponse;
 import com.example.Widget.in.dto.LoginRequestDto;
 import com.example.Widget.in.entities.user;
 import com.example.Widget.in.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.Widget.in.dto.userResponse;
 
 
 @RestController
@@ -43,16 +44,27 @@ public class AuthController
 
 
     @PostMapping("/login")
-    public  ResponseEntity<ApiResponse<String>> loginUser(@RequestBody LoginRequestDto user)
+    public  ResponseEntity<ApiResponse<String>> loginUser(@RequestBody LoginRequestDto request,HttpServletResponse response)
     {
-        user userResponse=userService.LoginUser(user.getUsername(),user.getPassword());
+        user userResponse = userService.LoginUser(request.getUsername(), request.getPassword());
 
         if (userResponse != null)
         {
 
-            String token = jwtTokenUtil.generateToken(userResponse.getUsername());
+            String jwtToken = jwtTokenUtil.generateToken(userResponse.getUsername());
 
-            ApiResponse<String> res = new ApiResponse<>(true, "Successfully Logged",token);
+            boolean cookieSecure = false;
+            ResponseCookie jwtCookie = ResponseCookie.from("Authorization", jwtToken)
+                    .path("/")
+                    .httpOnly(true)
+                    .secure(cookieSecure)
+                    .sameSite("None")
+                    .maxAge(3600)
+                    .build();
+
+            response.addHeader("Set-Cookie", jwtCookie.toString());
+
+            ApiResponse<String> res = new ApiResponse<>(true, "Successfully Logged", jwtToken);
             return ResponseEntity.ok(res);
         }
 
