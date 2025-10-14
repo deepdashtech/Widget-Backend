@@ -17,13 +17,16 @@ public class UserService
     private PasswordEncoder passwordEncoder;
 
 
-    public user RegisterUser(String username, String password)
+    public user RegisterUser(String username, String password, String firstname, String lastname)
     {
         user user= userRepository.findByUsername(username);
         if(user==null)
         {
             String encodedPassword = passwordEncoder.encode(password);
-            return userRepository.save(new user(username, encodedPassword));
+            user newUser = new user(username, encodedPassword, firstname, lastname);
+            user savedUser = userRepository.save(newUser);
+            savedUser.setFullnameAfterLoad();
+            return savedUser;
         }
         return null;
     }
@@ -34,10 +37,9 @@ public class UserService
     {
         user existinguser= userRepository.findByUsername(username);
         if (existinguser != null && passwordEncoder.matches(password, existinguser.getPassword())) {
+            existinguser.setFullnameAfterLoad();
             return existinguser;
         }
         return null;
     }
-
-
 }
