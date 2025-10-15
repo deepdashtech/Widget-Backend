@@ -1,6 +1,7 @@
 package com.example.Widget.in.service;
 
 
+import com.example.Widget.in.dto.ApiResponse;
 import com.example.Widget.in.entities.widget;
 import com.example.Widget.in.repository.WidgetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,8 @@ public class WidgetService {
         return null;
     }
 
-    public List<widget> listWidgets() {
-        return widgetRepository.findAll();
+    public ApiResponse<List<widget>> listWidgets() {
+        return new ApiResponse<>(true,"Successfully Fetched",widgetRepository.findAll());
+
     }
 }
