@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class WidgetRequest {
 
-
     private String title;
     private String description;
     private int defaultHeight;
