@@ -31,8 +31,8 @@ public class WidgetConroller {
     @GetMapping("/allwidgets")
     public ResponseEntity<ApiResponse<List<widget>>> getAllWidget()
     {
-
-        return ResponseEntity.ok(widgetService.listWidgets());
+        ApiResponse<List<widget>> res=new ApiResponse<>(true,"Successfully Fetched",widgetService.listWidgets());
+        return ResponseEntity.ok(res);
     }
 
 
