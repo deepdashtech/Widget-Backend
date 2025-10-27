@@ -64,7 +64,7 @@ public class AuthController
                     .httpOnly(true)
                     .secure(false)
                     .sameSite("None")
-                    .maxAge(24 * 60 * 60 * 1000)
+                    .maxAge(24 * 60 * 60)
                     .build();
 
             response.addHeader("Set-Cookie", jwtCookie.toString());
